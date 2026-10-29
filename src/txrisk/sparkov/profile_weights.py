@@ -1,4 +1,5 @@
-# Vendored unchanged from Sparkov_Data_Generation (MIT, Brandon Harris), commit b5eb45c.
+# Vendored from Sparkov_Data_Generation (MIT, Brandon Harris), commit b5eb45c.
+# Change for Transaction Risk Lab: P5 bug fix in closest_rand_parallel (see PATCHES.md).
 import sys
 from datetime import datetime, timedelta, time, date
 import random
@@ -201,7 +202,9 @@ class Profile:
         # sort by the ith colum
         r2 = r[r[:,i].argsort()]
         for x in lst:
-            r2[:,j] = np.where(r2[:,1] <= x, x, r2[:,j])
+            # P5 bug fix: upstream compares column 1 (the date draw) for every mapping, which made
+            # category and AM/PM a function of the date. Use the requested column i.
+            r2[:,j] = np.where(r2[:,i] <= x, x, r2[:,j])
         return r2
 
     def sample_from(self, is_fraud):

@@ -67,7 +67,7 @@ export function Method({ bundle }: { bundle: Bundle }) {
       <h3 className="section-title">Data</h3>
       <p>
         Transaksi kartu sintetis dari generator Sparkov (Brandon Harris, lisensi MIT), generator yang juga dipakai dataset Kaggle "Credit Card
-        Transactions Fraud Detection". Konfigurasi: {man ? int(Number(man.n_customers)) : '1.000'} nasabah, 1 Januari 2019 sampai 31 Desember
+        Transactions Fraud Detection", dengan satu perbaikan bug (lihat di bawah). Konfigurasi: {man ? int(Number(man.n_customers)) : '1.000'} nasabah, 1 Januari 2019 sampai 31 Desember
         2020, seed tetap, commit generator <code>{man ? String(man.generator_commit).slice(0, 7) : 'b5eb45c'}</code>. Total{' '}
         {man ? int(Number(man.rows)) : '–'} transaksi. Nama, alamat, nomor kartu, dan SSN palsu buatan Faker dibuang sebelum apa pun disimpan untuk
         model; kartu hanya dikenali dengan nomor pseudonim, dan situs ini tidak memuat nomor kartu sama sekali.
@@ -99,6 +99,12 @@ export function Method({ bundle }: { bundle: Bundle }) {
         lengkap riwayatnya, sehingga arti "kategori baru bagi kartu ini" berubah antar periode dan regresi logistik turun tajam. Fitur diganti
         dengan jendela 90 hari dan tiga bulan pertama dijadikan pemanasan. Keputusan ini diambil dari data validasi, sebelum data uji dibuka.
       </p>
+      <p>
+        Run penuh pertama dibuang. Analisis kegagalan memperlihatkan transaksi sah di periode uji hanya muncul di 6 dari 14 kategori. Penyebabnya
+        bug di generator Sparkov: kategori dan pagi/sore ikut ditentukan oleh angka acak tanggal, sehingga kategori berputar mengikuti kalender.
+        Bug diperbaiki (patch P5, dijaga tes), data dibangkitkan ulang, dan protokol dijalankan lagi tanpa perubahan lain. Angka di situs ini dari run
+        kedua. Temuan pergeseran fitur di atas diamati sebelum perbaikan itu.
+      </p>
 
       <h3 className="section-title">Batas klaim</h3>
       <ul>
@@ -110,6 +116,11 @@ export function Method({ bundle }: { bundle: Bundle }) {
         <li>Skor adalah urutan prioritas tinjauan manusia, bukan keputusan bahwa seseorang berbuat curang.</li>
         <li>Gender dan umur di data ini juga sintetis; audit kelompok menguji prosedur, bukan keadilan di populasi nyata.</li>
         <li>Penjelasan SHAP menjelaskan model, bukan penyebab fraud.</li>
+        <li>
+          C terbaik untuk kedua varian logistik jatuh di ujung grid (C=1). Untuk logistik biasa kenaikannya sudah datar, tetapi varian dengan
+          interaksi masih naik, jadi selisih LightGBM terhadap varian itu bisa sedikit lebih kecil dengan grid yang lebih lebar. Grid tidak diubah
+          setelah uji dibuka.
+        </li>
       </ul>
 
       <h3 className="section-title">Reproduksi</h3>

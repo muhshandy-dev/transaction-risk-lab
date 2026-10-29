@@ -1,0 +1,243 @@
+{
+ "budget": 0.01,
+ "model": "lgbm",
+ "threshold": 0.01968412169431863,
+ "fraud_missed": 78,
+ "fraud_total": 2178,
+ "false_alerts": 990,
+ "alerts": 3090,
+ "missed_by_lgbm_caught_by_logistic": 7,
+ "caught_by_lgbm_missed_by_logistic": 362,
+ "recall_by_category": [
+  {
+   "group": "entertainment",
+   "rate": 0.982759,
+   "n": 58
+  },
+  {
+   "group": "food_dining",
+   "rate": 0.911111,
+   "n": 45
+  },
+  {
+   "group": "gas_transport",
+   "rate": 1.0,
+   "n": 172
+  },
+  {
+   "group": "grocery_net",
+   "rate": 1.0,
+   "n": 29
+  },
+  {
+   "group": "grocery_pos",
+   "rate": 0.996262,
+   "n": 535
+  },
+  {
+   "group": "health_fitness",
+   "rate": 0.74359,
+   "n": 39
+  },
+  {
+   "group": "home",
+   "rate": 0.658537,
+   "n": 41
+  },
+  {
+   "group": "kids_pets",
+   "rate": 0.652174,
+   "n": 46
+  },
+  {
+   "group": "misc_net",
+   "rate": 0.992453,
+   "n": 265
+  },
+  {
+   "group": "misc_pos",
+   "rate": 1.0,
+   "n": 74
+  },
+  {
+   "group": "personal_care",
+   "rate": 0.731343,
+   "n": 67
+  },
+  {
+   "group": "shopping_net",
+   "rate": 0.986111,
+   "n": 504
+  },
+  {
+   "group": "shopping_pos",
+   "rate": 0.984906,
+   "n": 265
+  },
+  {
+   "group": "travel",
+   "rate": 1.0,
+   "n": 38
+  }
+ ],
+ "recall_by_amount_band": [
+  {
+   "group": "<20",
+   "rate": 0.920424,
+   "n": 377
+  },
+  {
+   "group": "20-100",
+   "rate": 0.744186,
+   "n": 86
+  },
+  {
+   "group": "100-300",
+   "rate": 0.944606,
+   "n": 343
+  },
+  {
+   "group": "300-800",
+   "rate": 0.994382,
+   "n": 534
+  },
+  {
+   "group": ">800",
+   "rate": 0.995227,
+   "n": 838
+  }
+ ],
+ "recall_night_vs_day": [
+  {
+   "group": "malam 22-04",
+   "rate": 0.975943,
+   "n": 1829
+  },
+  {
+   "group": "siang 04-22",
+   "rate": 0.902579,
+   "n": 349
+  }
+ ],
+ "false_alert_rate_by_category": [
+  {
+   "group": "food_dining",
+   "rate": 0.0,
+   "n": 83
+  },
+  {
+   "group": "health_fitness",
+   "rate": 0.000423,
+   "n": 18894
+  },
+  {
+   "group": "home",
+   "rate": 0.002648,
+   "n": 141590
+  },
+  {
+   "group": "kids_pets",
+   "rate": 0.000858,
+   "n": 151562
+  },
+  {
+   "group": "personal_care",
+   "rate": 0.002684,
+   "n": 122557
+  },
+  {
+   "group": "travel",
+   "rate": 0.002664,
+   "n": 55552
+  }
+ ],
+ "false_alert_rate_by_amount_band": [
+  {
+   "group": "<20",
+   "rate": 0.002418,
+   "n": 194406
+  },
+  {
+   "group": "20-100",
+   "rate": 0.000726,
+   "n": 216290
+  },
+  {
+   "group": "100-300",
+   "rate": 0.001901,
+   "n": 69974
+  },
+  {
+   "group": "300-800",
+   "rate": 0.016733,
+   "n": 7291
+  },
+  {
+   "group": ">800",
+   "rate": 0.047431,
+   "n": 2277
+  }
+ ],
+ "episodes": {
+  "n": 234,
+  "detected": 234,
+  "detected_share": 1.0,
+  "median_first_alert_pos": 1.0,
+  "share_caught_by_2nd_tx": 1.0,
+  "amount_caught_share": 0.991548
+ },
+ "case_ids": {
+  "missed": [
+   1681791,
+   1709078,
+   1523461,
+   1468133,
+   1676465,
+   1699213,
+   1669539,
+   1647913,
+   1618874,
+   1473574,
+   1497489,
+   1472762
+  ],
+  "false_alert": [
+   1681927,
+   1360214,
+   1711272,
+   1541514,
+   1304598,
+   1609207,
+   1454057,
+   1394986,
+   1469132,
+   1290248,
+   1709278,
+   1609091
+  ],
+  "caught": [
+   1621556,
+   1501453,
+   1655224,
+   1272434,
+   1585662,
+   1484226,
+   1445300,
+   1475538,
+   1289846,
+   1398417,
+   1565142,
+   1428205
+  ],
+  "quiet": [
+   1600288,
+   1611035,
+   1572280,
+   1415509,
+   1597136,
+   1388270,
+   1687634,
+   1579238
+  ]
+ }
+}

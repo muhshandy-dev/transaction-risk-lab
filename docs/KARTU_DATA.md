@@ -2,13 +2,13 @@
 
 ## Sumber
 
-- Generator: Sparkov_Data_Generation, Brandon Harris, lisensi MIT, commit `b5eb45c89d36f2aa4ef16044a42945bed8b96d93`. Disalin ke `src/txrisk/sparkov/` dengan patch yang tercatat di `PATCHES.md` (path berkas, tanggal acuan umur tetap 2021-01-01, tanpa berkas log). Logika profil dan fraud tidak diubah.
+- Generator: Sparkov_Data_Generation, Brandon Harris, lisensi MIT, commit `b5eb45c89d36f2aa4ef16044a42945bed8b96d93`. Disalin ke `src/txrisk/sparkov/` dengan patch yang tercatat di `PATCHES.md`: path berkas, tanggal acuan umur tetap 2021-01-01, tanpa berkas log, dan satu perbaikan bug (P5) yang membuat kategori dan AM/PM ikut ditentukan oleh tanggal. Logika profil dan fraud tidak diubah.
 - Konfigurasi: 1.000 nasabah, 1 Jan 2019 sampai 31 Des 2020, seed 42. Driver `txrisk/generate.py` memberi seed tersendiri untuk tiap profil dan menjalankan dengan TZ=UTC, sehingga keluaran identik antar run dan jumlah proses.
 - Checksum hasil: `data/manifest.json` (dibuat oleh `txrisk run`, SHA-256 atas isi tabel mentah dan bersih).
 
 ## Isi
 
-Satu baris = satu transaksi kartu. Hasil: 1.748.617 transaksi, 993 kartu (7 nasabah tidak punya transaksi), 9.410 berlabel fraud (0,54%). Angka per bagian waktu ada di `reports/results.json` bagian `data`.
+Satu baris = satu transaksi kartu. Hasil: 1.663.755 transaksi, 996 kartu (4 nasabah tidak punya transaksi), 9.503 berlabel fraud (0,57%). Angka per bagian waktu ada di `reports/results.json` bagian `data`.
 
 ## Cara Sparkov membuat fraud (dibaca dari kode)
 

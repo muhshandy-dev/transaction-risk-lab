@@ -18,3 +18,14 @@ def test_generator_is_deterministic_and_pii_is_dropped(tmp_path):
         assert value not in raw_text
     assert c["card_id"].str.match(r"^K\d{4}$").all()
     assert (c["distance_km"] >= 0).all()
+
+
+def test_category_does_not_depend_on_date(tmp_path):
+    """Guards patch P5: legitimate categories must not rotate with the calendar."""
+    raw = pd.read_parquet(generate(30, "2019-01-01", "2019-12-31", 5, tmp_path / "c", workers=2))
+    legit = raw[raw["is_fraud"] == "0"]
+    per_month = legit.groupby(legit["trans_date"].str[:7])["category"].nunique()
+    assert per_month.min() >= 12, per_month.to_dict()
+    hours = legit["trans_time"].str[:2].astype(int)
+    am_share = (hours < 12).groupby(legit["trans_date"].str[:7]).mean()
+    assert am_share.max() - am_share.min() < 0.15, am_share.to_dict()

@@ -133,7 +133,8 @@ def export(reports: Path | None = None, ddir: Path | None = None, web: Path | No
         if p.exists():
             write_json(pub / f"{name}.json", json.loads(p.read_text()))
     models_dir = pub / "models"
-    write_json(models_dir / "lgbm.json", export_lgbm(booster))
+    models_dir.mkdir(parents=True, exist_ok=True)
+    (models_dir / "lgbm.json").write_text(json.dumps(export_lgbm(booster), separators=(",", ":"), allow_nan=False))
     write_json(models_dir / "logistic.json", logit_spec)
     write_json(models_dir / "calibration.json", {"platt": calib, "thresholds": thresholds,
                                                  "primary_budget": PROTOCOL.primary_budget})

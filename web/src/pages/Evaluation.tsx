@@ -77,7 +77,7 @@ export function Evaluation({ bundle }: { bundle: Bundle }) {
                     {m.label}
                   </th>
                   <Cell v={m.ap} ci={c.ap} f={(x) => num(x, 3)} />
-                  <Cell v={m.roc_auc} ci={c.auc} f={(x) => num(x, 3)} />
+                  <Cell v={m.roc_auc} ci={c.auc} f={(x) => num(x, 4)} />
                   <Cell v={m.at_budget[pb].recall} ci={c[`recall@${pb}`]} f={(x) => pct(x, 1)} />
                   <Cell v={m.at_budget[pb].precision} ci={c[`precision@${pb}`]} f={(x) => pct(x, 1)} />
                   <Cell v={cal?.brier} ci={c.brier} f={(x) => num(x * 1000, 2) + '‰'} />
@@ -219,7 +219,8 @@ export function Evaluation({ bundle }: { bundle: Bundle }) {
             </tbody>
           </table>
           <p className="small muted">
-            ECE keseluruhan kecil karena hampir semua transaksi berpeluang mendekati nol. ECE zona alarm hanya menghitung bin dengan prediksi
+            Platt tidak selalu membantu: untuk logistik, ECE sesudah Platt sedikit lebih buruk daripada skor mentah, dan hal itu dilaporkan apa
+            adanya. ECE keseluruhan kecil karena hampir semua transaksi berpeluang mendekati nol. ECE zona alarm hanya menghitung bin dengan prediksi
             minimal 1%, tempat keputusan tinjauan diambil.
           </p>
         </div>

@@ -54,4 +54,7 @@ Bootstrap 1.000 kali dengan mengambil ulang **kartu** (seluruh transaksi satu ka
 | Tanggal | Perubahan | Dasar |
 |---|---|---|
 | 29 Okt 2026 | Fitur kebiasaan kartu dari seluruh riwayat diganti jendela 90 hari; Jan-Mar 2019 jadi pemanasan; data latih mulai Apr 2019 | Di validasi A, porsi fraud pada "kategori baru bagi kartu" turun dari ~50% (awal 2019) ke ~8% (akhir 2020) karena riwayat kartu terus bertambah; regresi logistik turun tajam. Diputuskan sebelum data uji dibuka. |
-| 29 Okt 2026 | Uji dijalankan sekali (run penuh pertama) | — |
+| 29 Okt 2026 | Run penuh 1 dibuang | Analisis kegagalan run 1 menunjukkan transaksi sah di periode uji hanya ada di 6 dari 14 kategori. Penyebabnya bug di Sparkov (`closest_rand_parallel` memakai kolom acak tanggal untuk kategori dan AM/PM). Generator diperbaiki (patch P5, dites), data dibangkitkan ulang. Protokol, grid, dan fitur tidak diubah. Laporan run 1 disimpan di `docs/riwayat/run1-generator-bug/`. |
+| 29 Okt 2026 | Run penuh 2 pada data yang sudah diperbaiki: angka yang dilaporkan | — |
+
+Catatan jujur: temuan pergeseran fitur riwayat penuh (baris pertama) diamati pada data sebelum perbaikan P5, yang kategorinya berputar mengikuti kalender dan kemungkinan memperbesar pergeseran itu. Jendela 90 hari tetap dipertahankan karena memang desain yang lebih stabil untuk fitur kebiasaan, bukan karena hasil uji.
