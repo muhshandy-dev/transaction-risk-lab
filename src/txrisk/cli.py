@@ -26,6 +26,9 @@ def main(argv=None) -> None:
         s.add_argument("--threads", type=int, default=4)
         s.add_argument("--force", action="store_true")
         s.add_argument("--skip-ablations", action="store_true")
+    k = sub.add_parser("import-kaggle", help="convert Kaggle fraudTrain.csv/fraudTest.csv into raw input")
+    k.add_argument("csv", type=Path, nargs="+")
+    k.add_argument("--data", type=Path, required=True)
     w = sub.add_parser("export-web")
     w.add_argument("--reports", type=Path, default=None)
     w.add_argument("--data", type=Path, default=None)
@@ -41,6 +44,10 @@ def main(argv=None) -> None:
 
         run(small_protocol() if args.small else PROTOCOL, args.out, args.data, args.threads,
             skip_ablations=args.skip_ablations)
+    elif args.cmd == "import-kaggle":
+        from .kaggle import import_kaggle
+
+        print(import_kaggle(args.csv, args.data))
     elif args.cmd == "export-web":
         from .export_web import export
 

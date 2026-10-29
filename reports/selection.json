@@ -1,0 +1,141 @@
+{
+ "grid": {
+  "logistic": [
+   {
+    "C": 0.001,
+    "val_a_ap": 0.727213,
+    "seconds": 10.6
+   },
+   {
+    "C": 0.003,
+    "val_a_ap": 0.785503,
+    "seconds": 9.1
+   },
+   {
+    "C": 0.01,
+    "val_a_ap": 0.823753,
+    "seconds": 12.9
+   },
+   {
+    "C": 0.03,
+    "val_a_ap": 0.823292,
+    "seconds": 16.8
+   },
+   {
+    "C": 0.1,
+    "val_a_ap": 0.765679,
+    "seconds": 26.5
+   },
+   {
+    "C": 0.3,
+    "val_a_ap": 0.634152,
+    "seconds": 35.5
+   },
+   {
+    "C": 1.0,
+    "val_a_ap": 0.434825,
+    "seconds": 50.4
+   }
+  ],
+  "logistic_ix": [
+   {
+    "C": 0.001,
+    "val_a_ap": 0.737112,
+    "seconds": 8.4
+   },
+   {
+    "C": 0.003,
+    "val_a_ap": 0.791819,
+    "seconds": 10.9
+   },
+   {
+    "C": 0.01,
+    "val_a_ap": 0.826572,
+    "seconds": 17.4
+   },
+   {
+    "C": 0.03,
+    "val_a_ap": 0.816855,
+    "seconds": 23.1
+   },
+   {
+    "C": 0.1,
+    "val_a_ap": 0.742411,
+    "seconds": 28.0
+   },
+   {
+    "C": 0.3,
+    "val_a_ap": 0.594637,
+    "seconds": 40.5
+   },
+   {
+    "C": 1.0,
+    "val_a_ap": 0.401323,
+    "seconds": 58.2
+   }
+  ],
+  "lgbm": [
+   {
+    "num_leaves": 15,
+    "min_child_samples": 50,
+    "best_iteration": 608,
+    "val_a_ap": 0.970734,
+    "seconds": 27.7
+   },
+   {
+    "num_leaves": 15,
+    "min_child_samples": 200,
+    "best_iteration": 873,
+    "val_a_ap": 0.966155,
+    "seconds": 37.1
+   },
+   {
+    "num_leaves": 31,
+    "min_child_samples": 50,
+    "best_iteration": 1677,
+    "val_a_ap": 0.975465,
+    "seconds": 81.9
+   },
+   {
+    "num_leaves": 31,
+    "min_child_samples": 200,
+    "best_iteration": 2386,
+    "val_a_ap": 0.974848,
+    "seconds": 113.2
+   },
+   {
+    "num_leaves": 63,
+    "min_child_samples": 50,
+    "best_iteration": 1119,
+    "val_a_ap": 0.97852,
+    "seconds": 91.9
+   },
+   {
+    "num_leaves": 63,
+    "min_child_samples": 200,
+    "best_iteration": 789,
+    "val_a_ap": 0.976777,
+    "seconds": 56.6
+   }
+  ]
+ },
+ "best": {
+  "logistic": {
+   "C": 0.01,
+   "val_a_ap": 0.823753,
+   "seconds": 12.9
+  },
+  "logistic_ix": {
+   "C": 0.01,
+   "val_a_ap": 0.826572,
+   "seconds": 17.4
+  },
+  "lgbm": {
+   "num_leaves": 63,
+   "min_child_samples": 50,
+   "best_iteration": 1119,
+   "val_a_ap": 0.97852,
+   "seconds": 91.9
+  }
+ }
+}
