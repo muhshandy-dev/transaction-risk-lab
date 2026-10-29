@@ -69,4 +69,5 @@ Workflow GitHub: `CI` (tes, run kecil, paritas browser, build) dan `Reproduksi p
 - `docs/EVALUASI.md` protokol dan riwayat keputusan
 - `docs/KARTU_DATA.md`, `docs/KARTU_MODEL.md`
 - `docs/DEPLOY_CLOUDFLARE.md`
+- `docs/REPRODUKSI.md` bukti dua run dari nol menghasilkan angka identik
 - `NOTICE.md` lisensi pihak ketiga
