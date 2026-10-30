@@ -1,0 +1,283 @@
+{
+ "budget": 0.01,
+ "model": "lgbm",
+ "threshold": 0.015548448191728449,
+ "fraud_missed": 49,
+ "fraud_total": 2323,
+ "false_alerts": 1680,
+ "alerts": 3954,
+ "missed_by_lgbm_caught_by_logistic": 6,
+ "caught_by_lgbm_missed_by_logistic": 545,
+ "recall_by_category": [
+  {
+   "group": "entertainment",
+   "rate": 0.985507,
+   "n": 69
+  },
+  {
+   "group": "food_dining",
+   "rate": 0.864865,
+   "n": 37
+  },
+  {
+   "group": "gas_transport",
+   "rate": 1.0,
+   "n": 214
+  },
+  {
+   "group": "grocery_net",
+   "rate": 0.976744,
+   "n": 43
+  },
+  {
+   "group": "grocery_pos",
+   "rate": 1.0,
+   "n": 525
+  },
+  {
+   "group": "health_fitness",
+   "rate": 0.904762,
+   "n": 42
+  },
+  {
+   "group": "home",
+   "rate": 0.946429,
+   "n": 56
+  },
+  {
+   "group": "kids_pets",
+   "rate": 0.839286,
+   "n": 56
+  },
+  {
+   "group": "misc_net",
+   "rate": 0.992982,
+   "n": 285
+  },
+  {
+   "group": "misc_pos",
+   "rate": 0.869565,
+   "n": 69
+  },
+  {
+   "group": "personal_care",
+   "rate": 0.885714,
+   "n": 70
+  },
+  {
+   "group": "shopping_net",
+   "rate": 0.998148,
+   "n": 540
+  },
+  {
+   "group": "shopping_pos",
+   "rate": 0.99631,
+   "n": 271
+  },
+  {
+   "group": "travel",
+   "rate": 0.891304,
+   "n": 46
+  }
+ ],
+ "recall_by_amount_band": [
+  {
+   "group": "<20",
+   "rate": 0.954649,
+   "n": 441
+  },
+  {
+   "group": "20-100",
+   "rate": 0.821053,
+   "n": 95
+  },
+  {
+   "group": "100-300",
+   "rate": 0.976744,
+   "n": 301
+  },
+  {
+   "group": "300-800",
+   "rate": 0.998311,
+   "n": 592
+  },
+  {
+   "group": ">800",
+   "rate": 0.995526,
+   "n": 894
+  }
+ ],
+ "recall_night_vs_day": [
+  {
+   "group": "malam 22-04",
+   "rate": 0.985159,
+   "n": 1954
+  },
+  {
+   "group": "siang 04-22",
+   "rate": 0.945799,
+   "n": 369
+  }
+ ],
+ "false_alert_rate_by_category": [
+  {
+   "group": "entertainment",
+   "rate": 0.001719,
+   "n": 34317
+  },
+  {
+   "group": "food_dining",
+   "rate": 0.003615,
+   "n": 35404
+  },
+  {
+   "group": "gas_transport",
+   "rate": 0.000223,
+   "n": 40366
+  },
+  {
+   "group": "grocery_net",
+   "rate": 0.003468,
+   "n": 19899
+  },
+  {
+   "group": "grocery_pos",
+   "rate": 0.0011,
+   "n": 43631
+  },
+  {
+   "group": "health_fitness",
+   "rate": 0.003073,
+   "n": 29291
+  },
+  {
+   "group": "home",
+   "rate": 0.002354,
+   "n": 44183
+  },
+  {
+   "group": "kids_pets",
+   "rate": 0.003245,
+   "n": 40678
+  },
+  {
+   "group": "misc_net",
+   "rate": 0.01005,
+   "n": 20797
+  },
+  {
+   "group": "misc_pos",
+   "rate": 0.007632,
+   "n": 30922
+  },
+  {
+   "group": "personal_care",
+   "rate": 0.005451,
+   "n": 32655
+  },
+  {
+   "group": "shopping_net",
+   "rate": 0.004887,
+   "n": 33971
+  },
+  {
+   "group": "shopping_pos",
+   "rate": 0.003468,
+   "n": 46140
+  },
+  {
+   "group": "travel",
+   "rate": 0.006113,
+   "n": 15049
+  }
+ ],
+ "false_alert_rate_by_amount_band": [
+  {
+   "group": "<20",
+   "rate": 0.003542,
+   "n": 162040
+  },
+  {
+   "group": "20-100",
+   "rate": 0.000906,
+   "n": 223992
+  },
+  {
+   "group": "100-300",
+   "rate": 0.004086,
+   "n": 71705
+  },
+  {
+   "group": "300-800",
+   "rate": 0.043799,
+   "n": 7603
+  },
+  {
+   "group": ">800",
+   "rate": 0.141111,
+   "n": 1963
+  }
+ ],
+ "episodes": {
+  "n": 244,
+  "detected": 244,
+  "detected_share": 1.0,
+  "median_first_alert_pos": 1.0,
+  "share_caught_by_2nd_tx": 0.995902,
+  "amount_caught_share": 0.99479
+ },
+ "case_ids": {
+  "missed": [
+   1411984,
+   1472615,
+   1527067,
+   1610987,
+   1229014,
+   1251895,
+   1574257,
+   1413561,
+   1592400,
+   1418782,
+   1457697,
+   1524314
+  ],
+  "false_alert": [
+   1338737,
+   1548823,
+   1546614,
+   1482062,
+   1283322,
+   1272420,
+   1382059,
+   1470810,
+   1366367,
+   1450033,
+   1436759,
+   1285595
+  ],
+  "caught": [
+   1236953,
+   1372302,
+   1465950,
+   1406385,
+   1415089,
+   1403496,
+   1400007,
+   1582426,
+   1389117,
+   1604376,
+   1474284,
+   1353556
+  ],
+  "quiet": [
+   1291194,
+   1269339,
+   1233443,
+   1392138,
+   1486791,
+   1558326,
+   1448192,
+   1546199
+  ]
+ }
+}

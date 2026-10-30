@@ -1,0 +1,55 @@
+{
+ "split": "val_b",
+ "model": "lgbm",
+ "results": [
+  {
+   "set": "semua fitur",
+   "dropped": [],
+   "val_b_ap": 0.978716,
+   "val_b_recall_at_1pct": 0.983173
+  },
+  {
+   "set": "tanpa jam",
+   "dropped": [
+    "hour",
+    "hourband_share_card"
+   ],
+   "val_b_ap": 0.948901,
+   "val_b_recall_at_1pct": 0.959936
+  },
+  {
+   "set": "tanpa nominal",
+   "dropped": [
+    "amt",
+    "amt_24h",
+    "amt_ratio_card",
+    "amt_ratio_card_cat"
+   ],
+   "val_b_ap": 0.591297,
+   "val_b_recall_at_1pct": 0.621795
+  },
+  {
+   "set": "tanpa velocity",
+   "dropped": [
+    "n_1h",
+    "n_24h",
+    "n_7d",
+    "secs_since_prev",
+    "amt_24h"
+   ],
+   "val_b_ap": 0.918458,
+   "val_b_recall_at_1pct": 0.928686
+  },
+  {
+   "set": "tanpa kebiasaan kartu",
+   "dropped": [
+    "amt_ratio_card",
+    "amt_ratio_card_cat",
+    "cat_share_card",
+    "hourband_share_card"
+   ],
+   "val_b_ap": 0.967319,
+   "val_b_recall_at_1pct": 0.974359
+  }
+ ]
+}

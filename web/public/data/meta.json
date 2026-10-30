@@ -1,0 +1,185 @@
+{
+ "version": "0.1.0",
+ "evaluated": "2026-10-29",
+ "protocol": {
+  "n_customers": 1000,
+  "start_date": "2019-01-01",
+  "end_date": "2020-12-31",
+  "seed": 42,
+  "warmup": [
+   "2019-01-01",
+   "2019-04-01"
+  ],
+  "train": [
+   "2019-04-01",
+   "2020-01-01"
+  ],
+  "val_a": [
+   "2020-01-01",
+   "2020-04-01"
+  ],
+  "val_b": [
+   "2020-04-01",
+   "2020-07-01"
+  ],
+  "test": [
+   "2020-07-01",
+   "2021-01-01"
+  ],
+  "budgets": [
+   0.0025,
+   0.005,
+   0.01,
+   0.02
+  ],
+  "primary_budget": 0.01,
+  "n_boot": 1000,
+  "boot_seed": 20261029,
+  "shap_seeds": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "shap_sample": 5000
+ },
+ "data": {
+  "train": {
+   "rows": 678566,
+   "fraud": 3570,
+   "fraud_rate": 0.005261,
+   "cards": 913,
+   "fraud_cards": 365,
+   "start": "2019-04-01 00:00:39+00:00",
+   "end": "2019-12-31 23:59:23+00:00"
+  },
+  "val_a": {
+   "rows": 156147,
+   "fraud": 1319,
+   "fraud_rate": 0.008447,
+   "cards": 879,
+   "fraud_cards": 143,
+   "start": "2020-01-01 00:01:19+00:00",
+   "end": "2020-03-31 23:59:54+00:00"
+  },
+  "val_b": {
+   "rows": 204267,
+   "fraud": 1248,
+   "fraud_rate": 0.00611,
+   "cards": 876,
+   "fraud_cards": 128,
+   "start": "2020-04-01 00:00:10+00:00",
+   "end": "2020-06-30 23:59:54+00:00"
+  },
+  "test": {
+   "rows": 469626,
+   "fraud": 2323,
+   "fraud_rate": 0.004946,
+   "cards": 893,
+   "fraud_cards": 244,
+   "start": "2020-07-01 00:04:39+00:00",
+   "end": "2020-12-31 23:59:35+00:00"
+  }
+ },
+ "manifest": {
+  "generator": "Sparkov_Data_Generation",
+  "generator_commit": "b5eb45c89d36f2aa4ef16044a42945bed8b96d93",
+  "licence": "MIT",
+  "n_customers": 1000,
+  "start_date": "2019-01-01",
+  "end_date": "2020-12-31",
+  "seed": 42,
+  "rows": 1663755,
+  "cards": 996,
+  "fraud_rows": 9503,
+  "raw_sha256": "aba3a4089623e7437f1a158a47695b22e12d18563535286b094333e863b038df",
+  "clean_sha256": "cac46b81387fd00ded14f6ebdbe099c3f875f1f92a846875189879cd9430d1ae"
+ },
+ "environment": {
+  "txrisk": "0.1.0",
+  "python": "3.13.17",
+  "numpy": "2.5.4",
+  "pandas": "3.1.0",
+  "lightgbm": "4.7.0",
+  "sklearn": "1.9.1",
+  "shap": "0.54.1"
+ },
+ "selection_best": {
+  "logistic": {
+   "C": 1.0,
+   "val_a_ap": 0.751013,
+   "seconds": 33.5
+  },
+  "logistic_ix": {
+   "C": 1.0,
+   "val_a_ap": 0.883167,
+   "seconds": 56.7
+  },
+  "lgbm": {
+   "num_leaves": 15,
+   "min_child_samples": 50,
+   "best_iteration": 892,
+   "val_a_ap": 0.979718,
+   "seconds": 34.5
+  }
+ },
+ "features": [
+  {
+   "name": "amt",
+   "label": "Nominal transaksi (USD)"
+  },
+  {
+   "name": "category",
+   "label": "Kategori merchant"
+  },
+  {
+   "name": "hour",
+   "label": "Jam transaksi (UTC)"
+  },
+  {
+   "name": "dow",
+   "label": "Hari dalam pekan"
+  },
+  {
+   "name": "distance_km",
+   "label": "Jarak rumah ke merchant (km)"
+  },
+  {
+   "name": "secs_since_prev",
+   "label": "Detik sejak transaksi sebelumnya"
+  },
+  {
+   "name": "n_1h",
+   "label": "Jumlah transaksi kartu 1 jam terakhir"
+  },
+  {
+   "name": "n_24h",
+   "label": "Jumlah transaksi kartu 24 jam terakhir"
+  },
+  {
+   "name": "n_7d",
+   "label": "Jumlah transaksi kartu 7 hari terakhir"
+  },
+  {
+   "name": "amt_24h",
+   "label": "Total nominal kartu 24 jam terakhir"
+  },
+  {
+   "name": "amt_ratio_card",
+   "label": "Nominal dibagi rata-rata kartu 90 hari terakhir"
+  },
+  {
+   "name": "amt_ratio_card_cat",
+   "label": "Nominal dibagi rata-rata kartu di kategori ini (90 hari)"
+  },
+  {
+   "name": "cat_share_card",
+   "label": "Porsi transaksi kartu di kategori ini (90 hari)"
+  },
+  {
+   "name": "hourband_share_card",
+   "label": "Porsi transaksi kartu di rentang 4 jam ini (90 hari)"
+  }
+ ]
+}
