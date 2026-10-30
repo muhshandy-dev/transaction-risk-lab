@@ -443,6 +443,7 @@ def run(p: Protocol = PROTOCOL, out: Path | None = None, ddir: Path | None = Non
     write_json(out / "selection.json", sel)
     models = fit_final(f[masks["train"]], sel["best"], threads)
     res, ctx = evaluate(f, masks, models, p)
+    res["evaluated"] = datetime.now(UTC).strftime("%Y-%m-%d")
     res["data"] = summary
     res["protocol"] = {k: v for k, v in p.__dict__.items() if k != "workers"}
     res["selection_best"] = sel["best"]

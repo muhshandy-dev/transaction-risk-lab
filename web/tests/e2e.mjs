@@ -6,7 +6,7 @@ const { chromium } = require('playwright')
 const axeSource = readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8')
 
 const BASE = process.env.BASE_URL ?? 'http://localhost:4173'
-const TABS = ['meja', 'budget', 'evaluasi', 'penjelasan', 'kegagalan', 'metode']
+const TABS = ['meja', 'budget', 'evaluasi', 'ketahanan', 'penjelasan', 'kegagalan', 'metode']
 let failures = 0
 let checks = 0
 const ok = (cond, msg) => {
@@ -70,6 +70,12 @@ await page.focus('#budget')
 for (let i = 0; i < 40; i++) await page.keyboard.press('ArrowLeft')
 const r2 = await page.textContent('.tile-num')
 ok(r1 !== r2, `budget slider updates recall (${r1} -> ${r2})`)
+// robustness page shows real-data results and every stress scenario for both models
+await page.goto(`${BASE}/#ketahanan`)
+await page.waitForSelector('table.stress')
+ok((await page.textContent('main')).includes('Data kartu nyata'), 'robustness page shows real-data section')
+ok((await page.$$('table.stress tbody tr')).length === 16, 'stress table has 8 scenarios x 2 models')
+await page.goto(`${BASE}/#budget`)
 // keyboard: the skip link is the first tab stop
 await page.reload()
 await page.waitForSelector('#budget')

@@ -110,7 +110,8 @@ export function Method({ bundle }: { bundle: Bundle }) {
       <ul>
         <li>
           Pola fraud di Sparkov sengaja mencolok: jam malam, nominal khas per kategori, ledakan transaksi dalam 1 sampai 2 hari, satu episode per
-          kartu. Skor tinggi di sini tidak berarti model siap untuk data bank nyata.
+          kartu. Skor tinggi di sini tidak berarti model siap untuk data bank nyata. Lihat <a href="#ketahanan">Uji ketahanan</a>: di
+          data kartu nyata, selisih LightGBM dan logistik tidak bermakna.
         </li>
         <li>Porsi fraud {pct(d.test.fraud_rate, 2)} dan pola waktunya ditentukan generator, bukan pengamatan dunia nyata.</li>
         <li>Skor adalah urutan prioritas tinjauan manusia, bukan keputusan bahwa seseorang berbuat curang.</li>

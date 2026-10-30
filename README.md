@@ -25,6 +25,35 @@ CI 95% dari 1.000 bootstrap yang mengambil ulang kartu.
 
 **Batas klaim.** Pola fraud Sparkov sengaja mencolok (jam malam, nominal khas per kategori, ledakan transaksi 1-2 hari). Angka setinggi ini **tidak** berarti model siap untuk bank nyata. Skor adalah urutan prioritas tinjauan petugas, bukan tuduhan.
 
+## Uji ketahanan: di luar data sintetis
+
+Karena angka di atas berasal dari data sintetis, protokol yang sama diuji ulang dengan dua cara. Protokolnya dikunci sebelum hasil dilihat (`docs/EVALUASI.md`), dan semua hasil ada di halaman **Uji ketahanan** di situs.
+
+**Data kartu nyata (ULB / Worldline, Eropa 2013, 284.807 transaksi, 492 fraud).** Pembagian waktu 50/15/15/20. Masukannya V1-V28 (PCA dari bank) dan log nominal. CI 95% dari 1.000 bootstrap blok 10 menit. Periode uji berisi 56.962 transaksi dengan 75 fraud.
+
+| Model | PR-AUC | ROC-AUC | Recall @ 1% |
+|---|---|---|---|
+| Aturan: nominal terbesar | 0,001 | 0,382 | 4,0% |
+| Regresi logistik | 0,771 (0,627-0,871) | 0,974 | 85,3% (73,4-93,6) |
+| LightGBM | 0,803 (0,684-0,897) | 0,968 | 84,0% (71,7-93,0) |
+
+- Selisih PR-AUC LightGBM − logistik: **+0,032 (−0,010 sampai +0,094)**. Intervalnya memuat nol, jadi **di data nyata LightGBM tidak terbukti lebih baik**. Keunggulan besar di data sintetis datang dari pola yang ditanam generator.
+- Kalibrasi tetap baik: ambang 1% dari validasi B menghasilkan laju alarm 0,88% di uji. Aditivitas TreeSHAP 5e-14. Faktor terbesarnya V14, V22, V4, tetapi karena berupa komponen PCA, faktor ini tidak bisa dibaca sebagai alasan bisnis.
+- Logistik memilih C=0,001, yaitu ujung bawah grid. Grid tidak diubah setelah hasil terlihat.
+
+**Stress test pada data sintetis.** Pengaturan model dikunci dan CI dihitung dari bootstrap kartu yang berpasangan dengan kondisi normal.
+
+| Skenario | PR-AUC LightGBM | PR-AUC logistik | Catatan |
+|---|---|---|---|
+| Normal (run 2) | 0,972 | 0,709 | laju alarm 0,84% |
+| Label fraud hilang untuk 50% kartu | 0,943 (Δ −0,028) | 0,699 | cukup tahan |
+| Pola fraud baru (online tidak pernah dilatih) | 0,876 (Δ −0,096) | 0,573 | recall fraud online 99,6% → 76,0% (logistik 92,2% → 63,5%) |
+| Nominal naik 25% | 0,934 (Δ −0,038) | 0,707 | laju alarm LightGBM 1,77% (rencana 1%), presisi 58% → 27% |
+| Jam bergeser +3 jam | 0,889 (Δ −0,083) | 0,620 | – |
+| Semua kartu baru tanpa riwayat | 0,510 (Δ −0,462) | 0,305 | recall tetap 97,7%, tetapi alarm 2,03% |
+
+Pelajarannya: laju alarm harus dipantau dan ambang dikalibrasi ulang setelah terjadi pergeseran, pola fraud baru perlu memicu latih ulang, dan kartu baru memerlukan aturan tersendiri.
+
 ## Yang ditemukan di sepanjang jalan
 
 1. **Pergeseran fitur riwayat penuh.** Di validasi A, fitur seperti "kategori baru bagi kartu ini" berubah arti seiring riwayat kartu bertambah. Diganti jendela 90 hari + tiga bulan pemanasan.
@@ -43,6 +72,8 @@ src/txrisk/            paket Python
   pipeline.py          protokol lengkap
   export_web.py        JSON untuk website
   kaggle.py            adapter dataset Kaggle kartik2112/fraud-detection
+  external.py          uji eksternal pada data kartu nyata ULB
+  stress.py            stress test dengan pengaturan terkunci
 reports/               hasil run yang dilaporkan
 artifacts/             model terlatih, kalibrasi, ambang
 web/                   React + TypeScript + Vite; LightGBM dan TreeSHAP di browser
@@ -55,8 +86,10 @@ docs/                  protokol, kartu data, kartu model, deploy
 ```bash
 python -m venv .venv && . .venv/bin/activate
 pip install -e ".[dev]"
-pytest -q                  # 16 tes
+pytest -q                  # 19 tes
 txrisk run                 # ~25 menit di 4 CPU: bangkitkan data, pilih, kalibrasi, uji, analisis
+txrisk external            # ~2 menit: unduh data nyata ULB, cek SHA-256, evaluasi
+txrisk stress              # ~17 menit: stress test
 txrisk export-web          # tulis web/public/data
 cd web && npm ci && npm test && npm run build
 npm run preview & npm run e2e   # 92 pemeriksaan termasuk axe

@@ -13,8 +13,8 @@ from pathlib import Path
 TOL = 0.005
 
 
-def headline(path: Path) -> dict[str, float]:
-    r = json.loads((path / "results.json").read_text())
+def headline(path: Path, name: str = "results.json") -> dict[str, float]:
+    r = json.loads((path / name).read_text())
     out = {}
     for k, m in r["models"].items():
         out[f"{k}.ap"] = m["ap"]
@@ -29,8 +29,8 @@ def headline(path: Path) -> dict[str, float]:
     return out
 
 
-def main(a: str, b: str) -> int:
-    ha, hb = headline(Path(a)), headline(Path(b))
+def main(a: str, b: str, name: str = "results.json") -> int:
+    ha, hb = headline(Path(a), name), headline(Path(b), name)
     worst = 0.0
     bad = 0
     for k in sorted(ha):
@@ -46,4 +46,5 @@ def main(a: str, b: str) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1], sys.argv[2]))
+    # optional third argument: report file name, e.g. external_ulb.json (same layout)
+    sys.exit(main(*sys.argv[1:4]))

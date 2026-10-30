@@ -21,6 +21,8 @@ jobs:
       - run: pytest -q
       - name: Smoke run of the whole protocol on a tiny dataset
         run: txrisk run --small --data "$RUNNER_TEMP/data" --out "$RUNNER_TEMP/reports" --threads 2
+      - name: Smoke run of the stress tests on the same tiny dataset
+        run: txrisk stress --small --data "$RUNNER_TEMP/data" --out "$RUNNER_TEMP/reports" --threads 2
       - name: Committed reports are internally consistent
         run: python tools/check_reports.py reports
 

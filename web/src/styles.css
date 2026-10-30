@@ -1012,3 +1012,23 @@ pre:focus-visible {
     transition: none !important;
   }
 }
+
+/* robustness page */
+.cell-main.neg {
+  color: var(--rust);
+}
+.deltas.single {
+  grid-template-columns: 1fr;
+  align-content: start;
+}
+.notes {
+  padding-left: 1.1rem;
+}
+.notes li {
+  margin: 4px 0;
+}
+.metrics.stress th[scope='row'] {
+  white-space: normal;
+  min-width: 8.5rem;
+  max-width: 14rem;
+}

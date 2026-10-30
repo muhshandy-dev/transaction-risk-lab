@@ -119,7 +119,9 @@ def export(reports: Path | None = None, ddir: Path | None = None, web: Path | No
     thresholds = json.loads((artifacts / "thresholds.json").read_text())
     failures = json.loads((reports / "failures.json").read_text())
 
-    generated = datetime.fromtimestamp((reports / "results.json").stat().st_mtime, UTC).strftime("%Y-%m-%d")
+    # run date is stored in the report; file modification time changes with every checkout
+    generated = res.get("evaluated") or datetime.fromtimestamp((reports / "results.json").stat().st_mtime,
+                                                               UTC).strftime("%Y-%m-%d")
     manifest_path = (ddir or data_dir()) / "manifest.json"
     manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else None
     meta = {"version": __version__, "evaluated": generated, "protocol": res["protocol"], "data": res["data"],
@@ -128,7 +130,7 @@ def export(reports: Path | None = None, ddir: Path | None = None, web: Path | No
     write_json(pub / "meta.json", meta)
     write_json(pub / "metrics.json", {k: res[k] for k in ("models", "ci", "paired_lgbm_minus_logistic",
                                                           "paired_lgbm_minus_logistic_ix", "budget_curves")})
-    for name in ("explain", "fairness", "failures", "ablations", "selection"):
+    for name in ("explain", "fairness", "failures", "ablations", "selection", "external_ulb", "stress"):
         p = reports / f"{name}.json"
         if p.exists():
             write_json(pub / f"{name}.json", json.loads(p.read_text()))
