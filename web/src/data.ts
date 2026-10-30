@@ -162,6 +162,60 @@ export interface CalibrationFile {
   primary_budget: number
 }
 
+export interface ExternalModel {
+  label: string
+  ap: number
+  roc_auc: number
+  at_budget: Record<string, { recall: number; precision: number; amount_recall: number }>
+  pr_curve: { recall: number; precision: number; threshold: number }[]
+  calibration?: { raw: Calibration; platt: Calibration }
+  operational?: Record<string, { threshold: number; alert_rate: number; recall: number; precision: number; fpr: number }>
+}
+export interface External {
+  dataset: { name: string; period: string; url: string; sha256: string; licence: string; citation: string }
+  protocol: { split_row_shares: number[]; inputs: string[]; block_seconds: number; n_boot: number; n_blocks_test: number; primary_budget: number }
+  data: {
+    rows: number
+    fraud: number
+    duplicate_rows: number
+    test_rows_with_exact_copy_before_test: number
+    splits: Record<string, { rows: number; fraud: number; fraud_rate: number; time_from_h: number; time_to_h: number }>
+  }
+  selection: { best: { logistic: { C: number; val_a_ap: number }; lgbm: { num_leaves: number; min_child_samples: number; best_iteration: number; val_a_ap: number } } }
+  models: Record<string, ExternalModel>
+  ci: Record<string, Record<string, Interval>>
+  paired_lgbm_minus_logistic: Record<string, Paired>
+  explain: {
+    sample_size: number
+    test_frauds_in_sample: number
+    checks: Record<string, number>
+    global: { feature: string; mean_abs_shap: number; mean_abs_shap_fraud: number; mean_abs_logistic: number }[]
+  }
+}
+export interface StressValue extends Interval {
+  value: number
+}
+export interface StressModel {
+  ap: StressValue
+  recall_top: StressValue
+  op_alert_rate: StressValue
+  op_recall: StressValue
+  op_precision: StressValue
+  op_recall_novel?: StressValue
+  op_recall_other?: StressValue
+  delta_vs_base?: Record<'ap' | 'recall_top' | 'op_recall', StressValue>
+}
+export interface Stress {
+  settings: Record<string, number>
+  n_boot: number
+  primary_budget: number
+  novel_categories: string[]
+  test_rows: number
+  test_fraud: number
+  test_fraud_novel: number
+  scenarios: { scenario: string; note: string; models: Record<'logistic' | 'lgbm', StressModel> }[]
+}
+
 export interface Bundle {
   meta: Meta
   metrics: Metrics
@@ -170,6 +224,8 @@ export interface Bundle {
   fairness: Fairness
   ablations: Ablations | null
   selection: Selection
+  external: External | null
+  stress: Stress | null
   cases: { model_version: string; evaluated: string; cases: Case[] }
 }
 
@@ -193,9 +249,11 @@ export function useBundle() {
       get<Ablations>('ablations.json').catch(() => null),
       get<Selection>('selection.json'),
       get<Bundle['cases']>('cases.json'),
+      get<External>('external_ulb.json').catch(() => null),
+      get<Stress>('stress.json').catch(() => null),
     ])
-      .then(([meta, metrics, explain, failures, fairness, ablations, selection, cases]) =>
-        setState({ data: { meta, metrics, explain, failures, fairness, ablations, selection, cases } }),
+      .then(([meta, metrics, explain, failures, fairness, ablations, selection, cases, external, stress]) =>
+        setState({ data: { meta, metrics, explain, failures, fairness, ablations, selection, cases, external, stress } }),
       )
       .catch((e: Error) => setState({ error: e.message }))
   }, [])

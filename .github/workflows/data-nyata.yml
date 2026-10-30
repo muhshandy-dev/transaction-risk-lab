@@ -1,0 +1,37 @@
+name: Evaluasi data nyata
+
+# Manual run: download the real ULB credit card fraud dataset from its public TensorFlow copy,
+# check its SHA-256, run the locked external protocol and compare with reports/external_ulb.json.
+# Takes about 5 minutes. The data itself is never committed.
+on:
+  workflow_dispatch:
+    inputs:
+      konfirmasi:
+        description: "Ketik JALANKAN untuk mulai (sekitar 5 menit)"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  external:
+    if: ${{ github.event.inputs.konfirmasi == 'JALANKAN' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - name: Download, verify and evaluate
+        env:
+          TXRISK_DATA: ${{ runner.temp }}/data
+        run: txrisk external --out "$RUNNER_TEMP/ext" --threads 4
+      - name: Compare with committed numbers
+        run: python tools/compare_reports.py reports "$RUNNER_TEMP/ext" external_ulb.json | tee "$RUNNER_TEMP/ext/compare.txt"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: data-nyata-${{ github.run_id }}
+          path: ${{ runner.temp }}/ext

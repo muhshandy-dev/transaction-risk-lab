@@ -6,11 +6,13 @@ import { Evaluation } from './pages/Evaluation'
 import { Explain } from './pages/Explain'
 import { Failures } from './pages/Failures'
 import { Method } from './pages/Method'
+import { Robustness } from './pages/Robustness'
 
 const TABS = [
   { key: 'meja', label: 'Meja tinjauan' },
   { key: 'budget', label: 'Simulator budget' },
   { key: 'evaluasi', label: 'Evaluasi' },
+  { key: 'ketahanan', label: 'Uji ketahanan' },
   { key: 'penjelasan', label: 'Penjelasan model' },
   { key: 'kegagalan', label: 'Kegagalan & audit' },
   { key: 'metode', label: 'Metode & batasan' },
@@ -75,7 +77,8 @@ export default function App() {
           </ul>
         </nav>
         <p className="strip">
-          Semua transaksi di situs ini sintetis. Skor menentukan urutan tinjauan oleh petugas, bukan tuduhan kepada pemilik kartu.
+          Transaksi yang ditampilkan di situs ini sintetis; halaman Uji ketahanan hanya memuat hasil agregat dari data kartu nyata. Skor
+          menentukan urutan tinjauan oleh petugas, bukan tuduhan kepada pemilik kartu.
         </p>
       </header>
       <main id="main" tabIndex={-1}>
@@ -84,13 +87,14 @@ export default function App() {
         {data && tab === 'meja' && (models ? <Desk bundle={data} models={models} /> : <p className="loading">{modelError ? `Model gagal dimuat: ${modelError}` : 'Memuat model…'}</p>)}
         {data && tab === 'budget' && <Budget bundle={data} />}
         {data && tab === 'evaluasi' && <Evaluation bundle={data} />}
+        {data && tab === 'ketahanan' && <Robustness bundle={data} />}
         {data && tab === 'penjelasan' && <Explain bundle={data} />}
         {data && tab === 'kegagalan' && <Failures bundle={data} />}
         {data && tab === 'metode' && <Method bundle={data} />}
       </main>
       <footer className="foot">
         <p>
-          Transaction Risk Lab · regresi logistik vs LightGBM, PR-AUC, recall@budget, kalibrasi, SHAP. Data: Sparkov (MIT). Kode: lisensi MIT.
+          Transaction Risk Lab · regresi logistik vs LightGBM, PR-AUC, recall@budget, kalibrasi, SHAP. Data: Sparkov (MIT); uji eksternal: ULB Credit Card Fraud (DbCL). Kode: lisensi MIT.
         </p>
       </footer>
     </>

@@ -22,6 +22,23 @@ def main(reports: str) -> int:
     ex = json.loads((rp / "explain.json").read_text())
     if ex["checks"]["lgbm_additivity_max_abs"] > 1e-6:
         errors.append("TreeSHAP additivity check failed")
+    ext_path = rp / "external_ulb.json"
+    if ext_path.exists():
+        x = json.loads(ext_path.read_text())
+        for k, m in x["models"].items():
+            c = x["ci"][k]["ap"]
+            if not (0 <= m["ap"] <= 1 and c["lo"] - 0.02 <= m["ap"] <= c["hi"] + 0.02):
+                errors.append(f"external {k}: AP {m['ap']} outside range or CI {c}")
+        if x["explain"]["checks"]["lgbm_additivity_max_abs"] > 1e-6:
+            errors.append("external TreeSHAP additivity check failed")
+        if x["data"]["test_rows_with_exact_copy_before_test"] != 0:
+            errors.append("external test rows duplicated before the test period")
+    st_path = rp / "stress.json"
+    if st_path.exists():
+        st = json.loads(st_path.read_text())
+        base = st["scenarios"][0]
+        if base["scenario"] != "base" or base["models"]["lgbm"]["ap"]["value"] != r["models"]["lgbm"]["ap"]:
+            errors.append("stress base scenario does not reproduce run 2 LightGBM AP")
     web = rp.parent / "web" / "public" / "data" / "metrics.json"
     if web.exists():
         w = json.loads(web.read_text())
