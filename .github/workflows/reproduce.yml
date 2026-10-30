@@ -1,0 +1,52 @@
+name: Reproduksi penuh
+
+# Manual run of the full protocol on a GitHub runner: generate Sparkov data, select, calibrate,
+# test once, explain, then compare the numbers with the committed reports. Takes 30-60 minutes.
+on:
+  workflow_dispatch:
+    inputs:
+      konfirmasi:
+        description: "Ketik JALANKAN untuk mulai (sekitar 30-60 menit CPU)"
+        required: true
+      simpan:
+        description: "Commit hasil ke branch repro/run-<id> (ya/tidak)"
+        required: true
+        default: "tidak"
+
+permissions:
+  contents: write
+
+jobs:
+  reproduce:
+    if: ${{ github.event.inputs.konfirmasi == 'JALANKAN' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - name: Full protocol from nothing
+        run: txrisk run --data "$RUNNER_TEMP/data" --out "$RUNNER_TEMP/run/reports" --threads 4
+      - name: Compare with committed reports
+        run: python tools/compare_reports.py reports "$RUNNER_TEMP/run/reports" | tee "$RUNNER_TEMP/run/compare.txt"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reproduksi-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/run
+            ${{ runner.temp }}/data/manifest.json
+      - name: Commit results to a separate branch
+        if: ${{ github.event.inputs.simpan == 'ya' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898732+github-actions[bot]@users.noreply.github.com"
+          git switch -c "repro/run-${{ github.run_id }}"
+          mkdir -p reproduksi
+          cp -r "$RUNNER_TEMP/run/reports" reproduksi/reports
+          cp "$RUNNER_TEMP/run/compare.txt" "$RUNNER_TEMP/data/manifest.json" reproduksi/
+          git add reproduksi
+          git commit -m "Reproduksi penuh di GitHub Actions run ${{ github.run_id }}"
+          git push origin "repro/run-${{ github.run_id }}"
